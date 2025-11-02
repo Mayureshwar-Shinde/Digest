@@ -53,4 +53,17 @@ public class JournalEntryController {
 		JournalEntry updatedJournalEntry = journalEntryService.update(journalEntry, id);
 		return ResponseEntity.ok(updatedJournalEntry);
 	}
+	
+	// as per user
+	@PostMapping("/user/{username}")
+	public ResponseEntity<JournalEntry> createEntryByUser(@RequestBody JournalEntry journalEntry, @PathVariable String username) {
+		JournalEntry savedJournalEntry = journalEntryService.saveEntryByUser(journalEntry, username);
+		return new ResponseEntity<>(savedJournalEntry, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/user/{username}")
+	public ResponseEntity<List<JournalEntry>> getAllByser(@PathVariable String username) {
+		List<JournalEntry> journalEntries = journalEntryService.getAllByUser(username);
+		return ResponseEntity.ok(journalEntries);
+	}
 }

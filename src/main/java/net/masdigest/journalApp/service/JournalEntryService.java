@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import net.masdigest.journalApp.controller.JournalEntryController;
 import net.masdigest.journalApp.entity.JournalEntry;
+import net.masdigest.journalApp.entity.User;
 import net.masdigest.journalApp.repository.JournalEntryRepository;
+import net.masdigest.journalApp.repository.UserRepository;
 
 
 @Service
 @Slf4j
 public class JournalEntryService {
-	
 	@Autowired
 	private JournalEntryRepository journalEntryRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	public JournalEntry saveEntry(JournalEntry journalEntry) {
 		log.info("CREATE - New JournalEntry");
@@ -48,4 +53,18 @@ public class JournalEntryService {
 		}
 		return journalEntryRepository.save(existingJournalEntry);
 	}
+	
+	// as per user
+	public JournalEntry saveEntryByUser(JournalEntry journalEntry, String username) {
+		User user = userRepository.findByUsername(username);
+		journalEntry.setUser(user);
+		return journalEntryRepository.save(journalEntry);
+	}
+	
+	public List<JournalEntry> getAllByUser(String username) {
+		User user = userRepository.findByUsername(username);
+		return user.getJournalEntries();
+	}
+	
+	// update, get-by-id, delete : can be done by others
 }
