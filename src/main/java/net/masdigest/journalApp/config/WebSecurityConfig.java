@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 	
-	private final PasswordEncoder passwordEncoder;
+	// private final PasswordEncoder passwordEncoder;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -33,19 +33,4 @@ public class WebSecurityConfig {
 		return httpSecurity.build();
 	}
 	
-	@Bean
-	UserDetailsService userDetailsService() {
-		UserDetails user1 = User.withUsername("admin")
-				.password(passwordEncoder.encode("password"))
-				.roles("ADMIN")
-				.build();
-		
-		UserDetails user2 = User.withUsername("patient")
-				.password(passwordEncoder.encode("password"))
-				.roles("TESTER")
-				.build();
-		
-		return new InMemoryUserDetailsManager(user1, user2);
-	}
-
 }
