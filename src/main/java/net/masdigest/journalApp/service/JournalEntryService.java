@@ -56,13 +56,13 @@ public class JournalEntryService {
 	
 	// as per user
 	public JournalEntry saveEntryByUser(JournalEntry journalEntry, String username) {
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElse(null);
 		journalEntry.setUser(user);
 		return journalEntryRepository.save(journalEntry);
 	}
 	
 	public List<JournalEntry> getAllByUser(String username) {
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElse(null);
 		return user.getJournalEntries();
 	}
 	
